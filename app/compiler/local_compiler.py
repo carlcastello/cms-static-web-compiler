@@ -1,8 +1,8 @@
 import os
 
-from . import Parser
+from app.compiler import Compiler
 
-class LocalParser(Parser):
+class LocalCompiler(Compiler):
 
     def __init__(self, project_name: str, **kwargs: dict) -> None:
         super().__init__(project_name)
