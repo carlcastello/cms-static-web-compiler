@@ -1,5 +1,5 @@
 install:
 	pip install -r requirements.txt
 
-compile_file:
-	python cms-static-web-compiler.py $(file_source)
+create_project:
+	python cms_static_web_compiler.py --name $(project_name)
