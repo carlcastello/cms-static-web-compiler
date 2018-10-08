@@ -2,14 +2,14 @@ import os
 
 from dotenv import load_dotenv
 
-from app.parser import Parser
-from app.parser.local_parser import LocalParser
+from app.compiler import Compiler
+from app.compiler.local_compiler import LocalCompiler
 
 load_dotenv(verbose=True)
 
-def get_parser(project_name: str, **kwargs: dict) -> Parser:
+def get_parser(project_name: str, **kwargs: dict) -> Compiler:
     return {
-        'LOCAL_PARSER': LocalParser(project_name, **kwargs)
+        'LOCAL_PARSER': LocalCompiler(project_name, **kwargs)
     }[os.getenv('PARSER_ENV')]
 
 def create_project_structure(project_name: str, **kwargs: dict) -> None:
