@@ -2,8 +2,8 @@ import os
 import sys
 
 from app import create_project_structure
-from app.parser import Parser
-from app.parser.local_parser import LocalParser
+from app.compiler import Compiler
+from app.compiler.local_compiler import LocalCompiler
 
 
 if __name__ == '__main__':
