@@ -8,12 +8,12 @@ class Compiler:
     def generate_project_keys(self) -> List:
         key_structure = "{}/{}/{}"
         environments = ['develop', 'production']
-        folders = ['css', 'images', 'js']
+        folders = ['css', 'images', 'js', 'robots']
         
         folder_keys = []
         for environment in environments:
             for folder in folders:
-                folder_keys.append(key_structure.format(self._project_name, environment, folder))
+                    folder_keys.append(key_structure.format(self._project_name, environment, folder))
 
         return folder_keys
 

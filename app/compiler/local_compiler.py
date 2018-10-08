@@ -1,4 +1,5 @@
 import os
+import logging
 
 from app.compiler import Compiler
 
@@ -10,4 +11,7 @@ class LocalCompiler(Compiler):
 
     def create_project_directories(self) -> None:
         for key in self.generate_project_keys():
-            os.makedirs(self._output_path + key)
+            try:
+                os.makedirs(self._output_path + key)
+            except FileExistsError:
+                logging.warning('Directory "{}" already exist.'.format(key))
