@@ -1,13 +1,16 @@
+# pylint: disable=missing-docstring
+
 import unittest
 
 from app.compiler import Compiler
 
-class Test_Compiler(unittest.TestCase):
+class TestCompiler(unittest.TestCase):
 
     def setUp(self) -> None:
-        self._compiler = Compiler('test-project-name')        
+        self._compiler = Compiler('test-project-name')
 
     def test_create_project_structure(self) -> None:
+        # pylint: disable=protected-access
         expected_keys = [
             'test-project-name/develop/css',
             'test-project-name/develop/images',
