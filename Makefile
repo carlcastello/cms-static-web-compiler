@@ -6,10 +6,12 @@ clean:
 	-rm -rf dist
 	-rm -rf $(PROJECT).egg-info
 
-pylint: clean
+pylint:
 	pylint cms_static_web_compiler.py app/	test/
 
-test: pylint
+compile: clean pylint
+
+test: compile
 	python3 -m unittest discover -v
 
 install:

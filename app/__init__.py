@@ -1,5 +1,5 @@
 """
-    Module containing all relevant project functions.
+    A Module containing all relevant project functions
 """
 
 import os
