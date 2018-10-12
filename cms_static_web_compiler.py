@@ -2,8 +2,9 @@
     Cms static web compiler is a python program that reads a json file
     and converts it to a bootstrap website.
 """
+from typing import Dict
 
-from app import create_project_structure
+from app import create_project_structure, hi
 
 
 def cms_static_web_compiler():
@@ -16,7 +17,7 @@ def cms_static_web_compiler():
     terminal_parser.add_argument('--name', help='The project file name', type=str)
     terminal_parser.add_argument('--output_path', help='The project file name', type=str)
 
-    terminal_arguments = terminal_parser.parse_args()
+    terminal_arguments: Dict[str, str] = terminal_parser.parse_args()
 
     create_project_structure(terminal_arguments.name)
 

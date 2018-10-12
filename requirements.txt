@@ -6,6 +6,7 @@ MarkupSafe==1.0
 mccabe==0.6.1
 pkg-resources==0.0.0
 pylint==2.1.1
+pyre-check==0.0.16
 python-dotenv==0.9.1
 six==1.11.0
 typed-ast==1.1.0

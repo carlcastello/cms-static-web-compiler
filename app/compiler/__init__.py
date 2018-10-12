@@ -15,14 +15,14 @@ class Compiler:
         """
             :project_name: Name of the project/root folder
         """
-        self._project_name = project_name
+        self._project_name: str = project_name
 
     def _generate_project_keys(self) -> List[str]:
-        key_structure = "{}/{}/{}"
-        environments = ['develop', 'production']
-        folders = ['css', 'images', 'js', 'robots']
+        key_structure: str = "{}/{}/{}"
+        environments: List[str] = ['develop', 'production']
+        folders: List[str] = ['css', 'images', 'js', 'robots']
 
-        folder_keys = []
+        folder_keys: List[str] = []
         for environment in environments:
             for folder in folders:
                 folder_keys.append(key_structure.format(

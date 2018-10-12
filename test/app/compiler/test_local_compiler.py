@@ -2,16 +2,17 @@
 
 import unittest
 from unittest.mock import patch, Mock, call
+from typing import List
 
 from app.compiler.local_compiler import LocalCompiler
 
 class TestLocalCompiler(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self) -> None:
         self._default_compiler = LocalCompiler('test-project-name')
 
     @staticmethod
-    def _expected_arguments(root_directory):
+    def _expected_arguments(root_directory) -> List[call]:
         return [
             call('{}test-project-name/develop/css'.format(root_directory)),
             call('{}test-project-name/develop/images'.format(root_directory)),
