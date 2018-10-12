@@ -14,13 +14,13 @@ pylint:
 
 compile: clean pyre pylint
 
-test: compile
+test: clean
 	python3 -m unittest discover -v
 
 install:
 	pip install -r requirements.txt
 
-build: install test
+build: install compile test
 
 create_project:
 	python3 cms_static_web_compiler.py --name $(project_name)
