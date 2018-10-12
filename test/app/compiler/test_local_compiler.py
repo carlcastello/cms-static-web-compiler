@@ -12,7 +12,7 @@ class TestLocalCompiler(unittest.TestCase):
         self._default_compiler = LocalCompiler('test-project-name')
 
     @staticmethod
-    def _expected_arguments(root_directory) -> List[call]:
+    def _expected_arguments(root_directory) -> List[type(call)]:
         return [
             call('{}test-project-name/develop/css'.format(root_directory)),
             call('{}test-project-name/develop/images'.format(root_directory)),

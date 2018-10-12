@@ -4,7 +4,7 @@
 """
 from typing import Dict
 
-from app import create_project_structure, hi
+from app import create_project_structure
 
 
 def cms_static_web_compiler():
