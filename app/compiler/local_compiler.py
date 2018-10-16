@@ -32,3 +32,8 @@ class LocalCompiler(Compiler):
                 os.makedirs(path)
                 continue
             logging.warning('Directory "%s" already exist.', key)
+
+    def create_project_pages(self) -> None:
+        """
+            Creates HTML pages for the projects based on a json object
+        """

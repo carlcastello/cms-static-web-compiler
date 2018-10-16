@@ -23,8 +23,10 @@ def create_project_structure(project_name: str, **kwargs: str):
         :project_name: Name of the project/root folder
         :kwargs: Extra arguments needed for the compiler
     """
+
     parser: Compiler = _get_compiler(project_name, **kwargs)
     parser.create_project_directories()
+    parser.create_project_pages()
 
 def update_project(project_name: str) -> None:
     """
