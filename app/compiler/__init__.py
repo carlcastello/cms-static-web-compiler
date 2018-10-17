@@ -3,7 +3,6 @@
     used by all environments
 """
 
-from jinja2 import
 from typing import List
 
 class Compiler:
@@ -46,3 +45,4 @@ class Compiler:
         #     An abstract method intended to create html pages based on a json object
         # """
         # raise NotImplementedError('Trying to run compiler without a given environment')
+        pass

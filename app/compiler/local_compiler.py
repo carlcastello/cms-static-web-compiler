@@ -31,7 +31,7 @@ class LocalCompiler(Compiler):
             if os.path.isfile(path):
                 os.makedirs(path)
                 continue
-            logging.warning('Directory "%s" already exist.', key)
+            logging.warning('File exists: "%s"', key)
 
     def create_project_pages(self) -> None:
         """
