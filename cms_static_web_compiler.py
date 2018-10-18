@@ -16,7 +16,6 @@ def cms_static_web_compiler() -> None:
         ArgParse type
         """
         # pylint: disable=too-few-public-methods
-
         name: str = ''
         output_path: str = ''
 
