@@ -12,7 +12,7 @@ class TestApp(unittest.TestCase):
     def test_create_project_structure(self,
                                       mock_get_env: Mock,
                                       mock_create_project_directories: Mock) -> None:
-        mock_get_env.return_value = 'LOCAL_COMPILER'
+        mock_get_env.return_value = 'LOCAL'
 
         create_project_structure('test-local-project')
 
