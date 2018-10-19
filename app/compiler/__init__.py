@@ -1,9 +1,9 @@
 """
-Holds Compiler related classes, functions and constants that are
+Holds Compiler (json to html) related classes, functions and constants that are
 used by all environments
 """
 
-from typing import List
+from typing import List, Dict
 
 class Compiler:
     """
@@ -36,16 +36,21 @@ class Compiler:
 
         return folder_keys
 
+    def _generate_file(self, project_data) -> Dict[str, str]:
+        """
+        Creates a key/value pair of the file name and a string
+        representation of an html file created by jinja.
+        """
+        return {}
+
     def create_project_directories(self) -> None:
         """
-        An abstract method intended to create folders/directories for a project
+        An abstract method intended to create folders/directories for a project.
         """
         raise NotImplementedError('Trying to run compiler without a given environment')
 
-    def create_project_pages(self) -> None:
-
-        # """
-        #     An abstract method intended to create html pages based on a json object
-        # """
-        # raise NotImplementedError('Trying to run compiler without a given environment')
-        pass
+    def create_project_files(self, project_data) -> None:
+        """
+        An abstract method intended to create html pages based on a json object.
+        """
+        raise NotImplementedError('Trying to run compiler without a given environment')

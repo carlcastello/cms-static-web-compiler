@@ -2,13 +2,13 @@
 {% set ONE = "ONE" %}
 
 
-{% if navbar_type == ZERO %}
+{% if navbar.type == ZERO %}
     <nav class="navbar">
         <a class="navbar-brand" href="/">
-            {% if navbar_brand_type == ZERO %}
-                <img src="{{ navbar_brand_image }}" alt="{{ navbar_brand_alternate }}">
-            {% elif navbar_brand_type == ONE %}
-                {{ navbar_brand_text }}
+            {% if navbar.brand.type == ZERO %}
+                <img src="{{ navbar.brand.image }}" alt="{{ navbar.brand.alternate }}">
+            {% elif navbar.brand.type == ONE %}
+                {{ navbar.brand.text }}
             {% endif %}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-nav-toggle" aria-controls="navbar-nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,10 +16,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar-nav-toggle">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="#">Features</a>
-                <a class="nav-item nav-link" href="#">Pricing</a>
-                <a class="nav-item nav-link disabled" href="#">Disabled</a>
+                {%  for nav in navbar.nav %}
+                    <a class="nav-item nav-link active" href="{{ nav.url }}">{{ nav.title }}</a>
+                {% endfor %}
             </div>
         </div>
     </nav>
