@@ -53,12 +53,12 @@ class TestLocalCompiler(unittest.TestCase):
 
         self.assertEqual(received_arguments, expected_arguments)
 
-    @patch('os.path.isfile')
+    @patch('os.path.isdir')
     @patch('os.makedirs')
-    def test_create_project_directories_with_file_already_exist(self,
-                                                                mock_make_dirs: Mock,
-                                                                mock_is_file: Mock) -> None:
-        mock_is_file.return_value = False
+    def test_create_project_directories_with_dir_already_exist(self,
+                                                               mock_make_dirs: Mock,
+                                                               mock_is_dir: Mock) -> None:
+        mock_is_dir.return_value = True
         compiler = LocalCompiler('test-project-name')
         compiler.create_project_directories()
 
