@@ -6,6 +6,7 @@ used specifically for local environment
 import os
 import logging
 
+from app.constants import MARKUP
 from app.compiler import Compiler
 
 class LocalCompiler(Compiler):
@@ -33,8 +34,18 @@ class LocalCompiler(Compiler):
                 continue
             logging.warning('Directory "%s" already exist.', path)
 
-    def create_project_pages(self) -> None:
+    def create_project_files(self, project_files) -> None:
         """
             Creates HTML pages for the projects based on a json object
         """
-        pass
+        def _compile_markup(files):
+            for file_name, file_content in files.items():
+                file_location = self._output_path + '{}/{}/{}'.format(self._project_name, environment, file_name)
+                file = open(file_location, 'w')
+                file.write(file_content)
+                file.close()
+
+        for environment in self._environments:
+            for file_category, files in project_files.items():
+                if file_category == MARKUP:
+                    _compile_markup(files)
