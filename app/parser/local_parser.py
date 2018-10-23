@@ -1,10 +1,16 @@
+"""
+Holds Parser related classes, functions and constants that are
+used specifically for local environment
+"""
 from json import load
 import logging
 
 from app.parser import Parser
 
 class LocalParser(Parser):
-
+    """
+    Implementation of the Parser class using the local os directory
+    """
     def __init__(self, project_name: str, **kwargs) -> None:
         super().__init__(project_name, **kwargs)
 

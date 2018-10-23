@@ -2,7 +2,6 @@
 Holds Compiler related classes, functions and constants that are
 used specifically for local environment
 """
-
 import os
 import logging
 
@@ -21,14 +20,14 @@ class LocalCompiler(Compiler):
         :kwargs: Extra arguments needed for this compiler
         """
         super().__init__(project_name)
-        self._output_path: str = kwargs.get('output_path', '../static-websites/')
+        self._output_path: str = kwargs.get('output_path', '../static-websites')
 
     def create_project_directories(self) -> None:
         """
         Creates folders/directories of a project
         """
         for key in self._generate_project_keys():
-            path: str = self._output_path + key
+            path: str = '{}/{}'.format(self._output_path, key)
             if not os.path.isdir(path):
                 os.makedirs(path)
                 continue
@@ -40,7 +39,12 @@ class LocalCompiler(Compiler):
         """
         def _compile_markup(files):
             for file_name, file_content in files.items():
-                file_location = self._output_path + '{}/{}/{}'.format(self._project_name, environment, file_name)
+                file_location: str = '{}/{}/{}/{}'.format(
+                    self._output_path,
+                    self._project_name,
+                    environment,
+                    file_name
+                )
                 with open(file_location, 'w') as file:
                     file.write(file_content)
 

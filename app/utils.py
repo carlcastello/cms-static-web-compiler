@@ -20,6 +20,9 @@ def get_compiler(project_name: str, **kwargs: str) -> Compiler:
 
 
 def get_parser(project_name: str, **kwargs: str) -> Parser:
+    """
+    Returns the parser class based on the environment
+    """
     parser: Parser = {
         'LOCAL': LocalParser(project_name, **kwargs)
     }.get(os.getenv('ENVIRONMENT'), Parser(project_name))

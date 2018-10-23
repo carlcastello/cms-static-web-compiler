@@ -4,7 +4,6 @@ import unittest
 from unittest.mock import patch, Mock
 
 from app import create_project_structure
-from app.compiler.local_compiler import LocalCompiler
 
 class TestApp(unittest.TestCase):
 

@@ -4,7 +4,7 @@ used by all environments
 """
 from typing import List, Dict, Any
 
-from jinja2 import Environment, BaseLoader, PackageLoader, select_autoescape
+from jinja2 import Environment, BaseLoader, PackageLoader, Template, select_autoescape
 
 from app.constants import MARKUP, IMAGES, CSS
 
@@ -15,21 +15,23 @@ class Parser:
 
     def __init__(self, project_name: str, **kwargs: str) -> None:
         self._project_name = project_name
+        self._kwargs = kwargs
 
-    def render_project_file(self, project_data):
+    @staticmethod
+    def render_project_file(project_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Creates a key/value pair of the file name and a string
         representation of a the file.
         """
-        def _get_file_name(file_data):
+        def _get_file_name(file_data: Dict[str, Any]) -> str:
             return file_data['name'] + '.' + file_data['type']
 
         def _render_pages():
-            jinja_env = Environment(
+            jinja_env: Environment = Environment(
                 loader=PackageLoader('app', 'templates'),
                 autoescape=select_autoescape(['html'])
             )
-            template = jinja_env.get_template('base.html')
+            template: Template = jinja_env.get_template('base.html')
 
             markup: Dict[str, Any] = project_data.get(MARKUP, {})
             pages: List[Dict[str, Any]] = markup.get('pages', [])
