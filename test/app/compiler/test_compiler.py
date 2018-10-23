@@ -9,7 +9,7 @@ class TestCompiler(unittest.TestCase):
     def setUp(self) -> None:
         self._compiler = Compiler('test-project-name')
 
-    def test_create_project_structure(self) -> None:
+    def test__generate_project_keys(self) -> None:
         # pylint: disable=protected-access
         expected_keys = [
             'test-project-name/develop/css',

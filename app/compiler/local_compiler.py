@@ -41,9 +41,8 @@ class LocalCompiler(Compiler):
         def _compile_markup(files):
             for file_name, file_content in files.items():
                 file_location = self._output_path + '{}/{}/{}'.format(self._project_name, environment, file_name)
-                file = open(file_location, 'w')
-                file.write(file_content)
-                file.close()
+                with open(file_location, 'w') as file:
+                    file.write(file_content)
 
         for environment in self._environments:
             for file_category, files in project_files.items():

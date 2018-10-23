@@ -1,15 +1,20 @@
 # pylint: disable=missing-docstring
 
 import unittest
-from unittest.mock import patch, Mock, call
+from unittest.mock import patch, Mock, call, mock_open
 from typing import List
 
+from app.constants import MARKUP
 from app.compiler.local_compiler import LocalCompiler
 
 class TestLocalCompiler(unittest.TestCase):
 
     def setUp(self) -> None:
-        self._default_compiler = LocalCompiler('test-project-name')
+        self._project_name = 'test-project-name'
+        self._output_path = '../test-website-directory/'
+
+        self._default_compiler = LocalCompiler(self._project_name)
+        self._compiler_with_path = LocalCompiler(self._project_name, output_path=self._output_path)
 
     @staticmethod
     def _expected_arguments(root_directory) -> List[type(call)]:
@@ -45,11 +50,10 @@ class TestLocalCompiler(unittest.TestCase):
                                                                   mock_is_file: Mock) -> None:
         mock_is_file.return_value = True
 
-        compiler = LocalCompiler('test-project-name', output_path='../test-website-directory/')
-        compiler.create_project_directories()
+        self._compiler_with_path.create_project_directories()
 
         received_arguments = mock_make_dirs.call_args_list
-        expected_arguments = self._expected_arguments('../test-website-directory/')
+        expected_arguments = self._expected_arguments(self._output_path)
 
         self.assertEqual(received_arguments, expected_arguments)
 
@@ -59,9 +63,26 @@ class TestLocalCompiler(unittest.TestCase):
                                                                mock_make_dirs: Mock,
                                                                mock_is_dir: Mock) -> None:
         mock_is_dir.return_value = True
-        compiler = LocalCompiler('test-project-name')
-        compiler.create_project_directories()
+        self._default_compiler.create_project_directories()
 
         received_arguments = mock_make_dirs.call_args_list
 
         self.assertEqual(received_arguments, [])
+
+    def test_create_project_files_compile_markup_files(self) -> None:
+        mock_file = mock_open()
+        project_files = {MARKUP: {'file_name.html': 'Hello World'}}
+
+        with patch('builtins.open', mock_file):
+            self._compiler_with_path.create_project_files(project_files)
+
+        self.assertEqual(mock_file.call_count, 2)
+        self.assertEqual(
+            mock_file.call_args_list,
+            [call('{}{}/develop/file_name.html'.format(self._output_path, self._project_name), 'w'),
+             call('{}{}/production/file_name.html'.format(self._output_path, self._project_name), 'w')]
+        )
+
+        file_handler = mock_file().write
+        self.assertEqual(file_handler.call_count, 2)
+        self.assertEqual(file_handler.call_args_list, [call('Hello World'), call('Hello World')])
