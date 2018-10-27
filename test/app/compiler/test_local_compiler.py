@@ -58,8 +58,6 @@ class TestLocalCompiler(unittest.TestCase):
         received_arguments: List[type(call)] = mock_make_dirs.call_args_list
         expected_arguments: List[type(call)] = self._expected_arguments(self._output_path)
 
-        print(received_arguments)
-        print(expected_arguments)
         self.assertEqual(received_arguments, expected_arguments)
 
     @patch('os.path.isdir')

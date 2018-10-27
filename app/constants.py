@@ -1,8 +1,8 @@
 """
 APP Constants
 """
-MARKUP = "markup"
-IMAGES = "images"
-CSS = "css"
-JS = "js"
-ROBOTS = "robots"
+MARKUP: str = "markup"
+IMAGES: str = "images"
+CSS: str = "css"
+JS: str = "js"
+ROBOTS: str = "robots"

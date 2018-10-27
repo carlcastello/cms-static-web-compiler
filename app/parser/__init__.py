@@ -24,7 +24,7 @@ class Parser:
         representation of a the file.
         """
         def _get_file_name(file_data: Dict[str, Any]) -> str:
-            return file_data['name'] + '.' + file_data['type']
+            return file_data['name'] + '.' + file_data['file_type']
 
         def _render_pages():
             jinja_env: Environment = Environment(

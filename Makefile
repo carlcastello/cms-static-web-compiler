@@ -6,13 +6,10 @@ clean:
 	-rm -rf dist
 	-rm -rf $(PROJECT).egg-info
 
-pyre:
-	pyre --show-error-traces check || true
-
 pylint:
 	pylint cms_static_web_compiler.py app/	test/
 
-compile: clean pyre pylint
+compile: clean pylint
 
 test: clean
 	python3 -m unittest discover -v
