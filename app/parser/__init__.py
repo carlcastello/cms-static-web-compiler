@@ -14,8 +14,8 @@ class Parser:
     """
 
     def __init__(self, project_name: str, **kwargs: str) -> None:
-        self._project_name = project_name
-        self._kwargs = kwargs
+        self._project_name: str = project_name
+        self._kwargs: str = kwargs
 
     @staticmethod
     def render_project_file(project_data: Dict[str, Any]) -> Dict[str, Any]:

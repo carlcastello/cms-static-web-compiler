@@ -1,15 +1,13 @@
 {
   "analysis_directories": [
-    ".",
-    "./app",
-    "./test"
+    "./app"
   ],
   "do_not_check": [
-    "venv"
+    "./venv"
   ],
   "search_path": [
-    "pyre-stubs"
+    "."
   ],
-  "binary": "venv/bin/pyre.bin",
-  "typeshed": "venv/lib/pyre_check/typeshed/"
+  "binary": "venv/bin/pyre.bin"
+
 }
