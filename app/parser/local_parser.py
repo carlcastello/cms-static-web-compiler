@@ -4,6 +4,7 @@ used specifically for local environment
 """
 from json import load
 import logging
+from typing import Dict, Any
 
 from app.parser import Parser
 
@@ -16,7 +17,7 @@ class LocalParser(Parser):
 
         self._location: str = f'../json-websites/{project_name}.json'
 
-    def get_project_data(self) -> dict:
+    def get_project_data(self) -> Dict[str, Any]:
         """
         Fetching project data in the local directory
         """

@@ -18,7 +18,6 @@ def get_compiler(project_name: str, **kwargs: str) -> Compiler:
     }.get(os.getenv('ENVIRONMENT'), Compiler(project_name))
     return compiler
 
-
 def get_parser(project_name: str, **kwargs: str) -> Parser:
     """
     Returns the parser class based on the environment

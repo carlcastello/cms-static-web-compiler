@@ -22,7 +22,7 @@ class TestParser(unittest.TestCase):
         mark_up: str = 'Hello World!'
 
         class Template:
-            def render(self, **kwargs):
+            def render(self, **kwargs) -> str:
                 self.kwargs: Dict[str, Any]= kwargs
                 return mark_up
 

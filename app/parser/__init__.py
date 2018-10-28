@@ -26,7 +26,7 @@ class Parser:
         def _get_file_name(file_data: Dict[str, Any]) -> str:
             return file_data['file_name'] + '.' + file_data['file_type']
 
-        def _render_pages():
+        def _render_pages() -> Dict[str, Any]:
             jinja_env: Environment = Environment(
                 loader=PackageLoader('app', 'templates'),
                 autoescape=select_autoescape(['html'])
@@ -48,7 +48,7 @@ class Parser:
             CSS: {}
         }
 
-    def get_project_data(self):
+    def get_project_data(self) -> Dict[str, Any]:
         """
             An abstract method to fetch project data
         """
