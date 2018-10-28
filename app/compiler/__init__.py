@@ -13,7 +13,6 @@ class Compiler:
     """
     # pylint: disable=too-few-public-methods
 
-    _key_structure: str = "{}/{}/{}"
     _environments: List[str] = ['develop', 'production']
     _folders: List[str] = [CSS, IMAGES, JS, ROBOTS]
 
@@ -31,11 +30,7 @@ class Compiler:
         folder_keys: List[str] = []
         for environment in self._environments:
             for folder in self._folders:
-                folder_keys.append(self._key_structure.format(
-                    self._project_name,
-                    environment,
-                    folder
-                ))
+                folder_keys.append(f'{self._project_name}/{environment}/{folder}')
 
         return folder_keys
 

@@ -28,11 +28,11 @@ class LocalCompiler(Compiler):
         Creates folders/directories of a project
         """
         for key in self._generate_project_keys():
-            path: str = '{}/{}'.format(self._output_path, key)
+            path: str = f'{self._output_path}/{key}'
             if not os.path.isdir(path):
                 os.makedirs(path)
                 continue
-            logging.warning('Directory "%s" already exist.', path)
+            logging.warning(f'Directory "{path}" already exist.')
 
     def create_project_files(self, project_files) -> None:
         """
@@ -40,13 +40,7 @@ class LocalCompiler(Compiler):
         """
         def _compile_markup(files):
             for file_name, file_content in files.items():
-                file_location: str = '{}/{}/{}/{}'.format(
-                    self._output_path,
-                    self._project_name,
-                    environment,
-                    file_name
-                )
-                with open(file_location, 'w') as file:
+                with open(f'{self._output_path}/{self._project_name}/{environment}/{file_name}', 'w') as file:
                     file.write(file_content)
 
         for environment in self._environments:

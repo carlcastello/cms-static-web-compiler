@@ -1,8 +1,8 @@
 """
 Application classes and functions
 """
-from typing import Dict, Any
 from dotenv import load_dotenv
+from typing import Dict, Any
 
 from app.utils import get_compiler, get_parser
 from app.parser import Parser
@@ -11,7 +11,6 @@ from app.compiler import Compiler
 from app.compiler.local_compiler import LocalCompiler
 
 load_dotenv(verbose=True)
-
 
 def create_project_structure(project_name: str, **kwargs: str) -> None:
     """
