@@ -22,14 +22,14 @@ class TestLocalCompiler(unittest.TestCase):
     @staticmethod
     def _expected_arguments(root_directory) -> List[type(call)]:
         return [
-            call('{}/test-project-name/develop/css'.format(root_directory)),
-            call('{}/test-project-name/develop/images'.format(root_directory)),
-            call('{}/test-project-name/develop/js'.format(root_directory)),
-            call('{}/test-project-name/develop/robots'.format(root_directory)),
-            call('{}/test-project-name/production/css'.format(root_directory)),
-            call('{}/test-project-name/production/images'.format(root_directory)),
-            call('{}/test-project-name/production/js'.format(root_directory)),
-            call('{}/test-project-name/production/robots'.format(root_directory)),
+            call(f'{root_directory}/test-project-name/develop/css'),
+            call(f'{root_directory}/test-project-name/develop/images'),
+            call(f'{root_directory}/test-project-name/develop/js'),
+            call(f'{root_directory}/test-project-name/develop/robots'),
+            call(f'{root_directory}/test-project-name/production/css'),
+            call(f'{root_directory}/test-project-name/production/images'),
+            call(f'{root_directory}/test-project-name/production/js'),
+            call(f'{root_directory}/test-project-name/production/robots'),
         ]
 
     @patch('os.path.isfile')
@@ -73,19 +73,27 @@ class TestLocalCompiler(unittest.TestCase):
         self.assertEqual(received_arguments, [])
 
     def test_create_project_files_compile_markup_files(self) -> None:
+        file_name: str = 'file_name.html'
+        file_content: str = 'Hello World'
+
         mock_file: Mock = mock_open()
-        project_files: Dict[str, Any] = {MARKUP: {'file_name.html': 'Hello World'}}
+        project_files: Dict[str, Dict[str, str]] = {
+            MARKUP: {file_name: file_content}
+        }
 
         with patch('builtins.open', mock_file):
             self._compiler_with_path.create_project_files(project_files)
 
-        file_path = '{}/{}/{}/file_name.html'.format(self._output_path, self._project_name, {})
         self.assertEqual(mock_file.call_count, 2)
         self.assertEqual(
             mock_file.call_args_list,
-            [call(file_path.format('develop'), 'w'), call(file_path.format('production'), 'w')]
+            [call(f'{self._output_path}/{self._project_name}/develop/{file_name}', 'w'),
+             call(f'{self._output_path}/{self._project_name}/production/{file_name}', 'w')]
         )
 
         file_handler = mock_file().write
         self.assertEqual(file_handler.call_count, 2)
-        self.assertEqual(file_handler.call_args_list, [call('Hello World'), call('Hello World')])
+        self.assertEqual(
+            file_handler.call_args_list,
+            [call(file_content), call(file_content)]
+        )

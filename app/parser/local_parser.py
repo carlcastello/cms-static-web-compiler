@@ -14,15 +14,15 @@ class LocalParser(Parser):
     def __init__(self, project_name: str, **kwargs) -> None:
         super().__init__(project_name, **kwargs)
 
-        self._location: str = '../json-websites/{}.json'.format(project_name)
+        self._location: str = f'../json-websites/{project_name}.json'
 
     def get_project_data(self) -> dict:
         """
         Fetching project data in the local directory
         """
         try:
-            with open(self._location.format(self._project_name)) as json_data:
+            with open(self._location) as json_data:
                 return load(json_data)
         except FileNotFoundError:
-            logging.warning('No such file or directory: "%s"', self._location)
+            logging.warning(f'No such file or directory: "{self._location}"')
             return {}

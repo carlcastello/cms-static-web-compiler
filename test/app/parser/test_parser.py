@@ -30,7 +30,7 @@ class TestParser(unittest.TestCase):
         mock_get_template.return_value = template
 
         page_one: Dict[str, str] = {
-            'name': file_name,
+            'file_name': file_name,
             'file_type': file_type
         }
         project_data: Dict[str, Any] = {
@@ -38,7 +38,7 @@ class TestParser(unittest.TestCase):
         }
         returned_data: Dict[str, Any] = self._parser.render_project_file(project_data)
         self.assertEqual(
-            {MARKUP: {f'{file_name}.{file_type}': f'{mark_up}'}, 'images': {}, 'css': {}},
-            returned_data
+            returned_data,
+            {MARKUP: {f'{file_name}.{file_type}': f'{mark_up}'}, 'images': {}, 'css': {}}
         )
-        self.assertEqual(page_one, template.kwargs)
+        self.assertEqual(template.kwargs, page_one)
