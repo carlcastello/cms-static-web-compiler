@@ -12,7 +12,6 @@ class Parser:
     """
     A parser abstract class with common methods for all environments
     """
-
     def __init__(self, project_name: str, **kwargs: str) -> None:
         self._project_name: str = project_name
         self._kwargs: str = kwargs

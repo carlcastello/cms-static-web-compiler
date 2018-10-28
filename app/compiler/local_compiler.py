@@ -38,7 +38,7 @@ class LocalCompiler(Compiler):
         """
             Creates HTML pages for the projects based on a json object
         """
-        def _compile_markup(files):
+        def _compile_markup(files) -> None:
             for file_name, file_content in files.items():
                 with open(f'{self._output_path}/{self._project_name}/{environment}/{file_name}', 'w') as file:
                     file.write(file_content)
