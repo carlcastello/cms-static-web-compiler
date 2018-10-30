@@ -1,9 +1,14 @@
+"""
+Test for the local compiler module
+"""
+
 import unittest
 from unittest.mock import Mock, call, patch, mock_open
 from json import dumps
 
 from app.parser.local_parser import LocalParser
 
+# pylint: disable=missing-docstring
 class TestLocalParser(unittest.TestCase):
 
     _project_name = 'test-project-name'

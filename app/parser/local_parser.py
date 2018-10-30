@@ -25,5 +25,5 @@ class LocalParser(Parser):
             with open(self._location) as json_data:
                 return load(json_data)
         except FileNotFoundError:
-            logging.warning(f'No such file or directory: "{self._location}"')
+            logging.warning('No such file or directory: "%s"', self._location)
             return {}

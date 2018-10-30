@@ -1,8 +1,8 @@
 """
 Application classes and functions
 """
-from dotenv import load_dotenv
 from typing import Dict, Any
+from dotenv import load_dotenv
 
 from app.utils import get_compiler, get_parser
 from app.parser import Parser

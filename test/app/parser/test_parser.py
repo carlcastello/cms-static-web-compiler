@@ -1,4 +1,4 @@
-# pylint: disable=missing-docstring
+#pylint: disable=missing-docstring
 
 import unittest
 from unittest.mock import patch, Mock
@@ -22,8 +22,11 @@ class TestParser(unittest.TestCase):
         mark_up: str = 'Hello World!'
 
         class Template:
+            # pylint: disable=too-few-public-methods
+            kwargs = {}
+
             def render(self, **kwargs) -> str:
-                self.kwargs: Dict[str, Any]= kwargs
+                self.kwargs: Dict[str, Any] = kwargs
                 return mark_up
 
         template = Template()

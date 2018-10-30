@@ -1,12 +1,15 @@
-# pylint: disable=missing-docstring
+"""
+Test for the local compiler module
+"""
 
 import unittest
 from unittest.mock import patch, Mock, call, mock_open
-from typing import List, Dict, Any
+from typing import List, Dict
 
 from app.constants import MARKUP
 from app.compiler.local_compiler import LocalCompiler
 
+# pylint: disable=missing-docstring
 class TestLocalCompiler(unittest.TestCase):
 
     def setUp(self) -> None:
