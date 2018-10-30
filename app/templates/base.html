@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{{ meta.title }}</title>
+        <meta name="description" content="{{ meta.description }}">
+        <meta name="author" content="{{ meta.author }}">
+    </head>
+    <body>
+    {% include 'navbar.html' %}
+    {% block main_content %}
+        Main Content
+    {% endblock %}
+    </body>
+</html>

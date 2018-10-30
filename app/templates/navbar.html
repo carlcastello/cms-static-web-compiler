@@ -1,0 +1,23 @@
+{% set ZERO = "ZERO" %}
+{% set ONE = "ONE" %}
+{% if navbar.type == ZERO %}
+    <nav class="navbar">
+        <a class="navbar-brand" href="/">
+            {% if navbar.brand.type == ZERO %}
+                <img src="{{ navbar.brand.image }}" alt="{{ navbar.brand.alternate }}">
+            {% elif navbar.brand.type == ONE %}
+                {{ navbar.brand.text }}
+            {% endif %}
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-nav-toggle" aria-controls="navbar-nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-nav-toggle">
+            <div class="navbar-nav">
+                {%  for nav in navbar.nav %}
+                    <a class="nav-item nav-link active" href="{{ nav.url }}">{{ nav.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+{% endif %}
