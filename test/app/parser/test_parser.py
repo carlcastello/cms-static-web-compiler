@@ -6,7 +6,7 @@ from unittest.mock import patch, Mock
 from typing import Dict, Any
 
 from app.parser import Parser
-from app.constants import MARKUP
+from app.constants import MARKUP, CSS
 
 class TestParser(unittest.TestCase):
 
@@ -37,11 +37,12 @@ class TestParser(unittest.TestCase):
             'file_type': file_type
         }
         project_data: Dict[str, Any] = {
-            MARKUP: {'pages': [page_one]}
+            MARKUP: {'pages': [page_one]},
+            CSS: {}
         }
         returned_data: Dict[str, Any] = self._parser.render_project_file(project_data)
         self.assertEqual(
             returned_data,
-            {MARKUP: {f'{file_name}.{file_type}': f'{mark_up}'}, 'images': {}, 'css': {}}
+            {MARKUP: {f'{file_name}.{file_type}': f'{mark_up}'}, 'images': {}, CSS: {}}
         )
         self.assertEqual(template.kwargs, page_one)
