@@ -27,7 +27,7 @@ class Parser:
 
         def _render_pages() -> Dict[str, Any]:
             jinja_env: Environment = Environment(
-                loader=PackageLoader('app', 'templates'),
+                loader=PackageLoader('app', '../resources/templates'),
                 autoescape=select_autoescape(['html'])
             )
             template: Template = jinja_env.get_template('base.html')
