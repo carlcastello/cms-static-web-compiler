@@ -4,7 +4,6 @@ used by all environments
 """
 from typing import List, Dict, Any
 
-import sass
 from jinja2 import Environment, BaseLoader, PackageLoader, Template, select_autoescape
 
 from app.constants import MARKUP, IMAGES, CSS
@@ -21,7 +20,7 @@ class Parser:
     def __get_file_name(file_data: Dict[str, Any]) -> str:
         return file_data['file_name'] + '.' + file_data['file_type']
 
-    def __compile_pages(self, markup: Dict[str, Any]) -> Dict[str, Any]:
+    def __parse_pages(self, markup: Dict[str, Any]) -> Dict[str, Any]:
         jinja_env: Environment = Environment(
             loader=PackageLoader('app', '../resources/templates'),
             autoescape=select_autoescape(['html'])
@@ -36,7 +35,10 @@ class Parser:
             self.__get_file_name(page): template.render(**{**markup, **page}) for page in pages
         }
 
-    def __compile_sass(self, project_data: Dict[str, Any]) -> Dict[str, Any]:
+    def __parse_sass(self, project_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Reads the main bootstrap file and the project css
+        """
         with open('resources/scss/bootstrap.scss', 'r') as bootstrap_file:
             return [bootstrap_file.read()]
         return []
@@ -46,11 +48,10 @@ class Parser:
         Creates a key/value pair of the file name and a string
         representation of a the file.
         """
-
         return {
-            MARKUP: self.__compile_pages(project_data[MARKUP]),
+            MARKUP: self.__parse_pages(project_data[MARKUP]),
             IMAGES: {},
-            CSS: self.__compile_sass(project_data[CSS])
+            CSS: self.__parse_sass(project_data[CSS])
         }
 
     def get_project_data(self) -> Dict[str, Any]:

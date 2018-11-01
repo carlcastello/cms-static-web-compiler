@@ -28,7 +28,6 @@ class Compiler:
         """
         Creates a directory tree
         """
-
         folder_keys: List[str] = []
         for environment in self._environments:
             for folder in self._folders:
