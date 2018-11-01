@@ -6,6 +6,8 @@ import unittest
 from unittest.mock import Mock, call, patch, mock_open
 from json import dumps
 
+from typing import Dict
+
 from app.parser.local_parser import LocalParser
 
 # pylint: disable=missing-docstring
@@ -17,7 +19,7 @@ class TestLocalParser(unittest.TestCase):
         self._parser = LocalParser(self._project_name)
 
     def test_get_project_data(self) -> None:
-        file_data = {'hello': 'world'}
+        file_data: Dict[str, str] = {'hello': 'world'}
         mock_file: Mock = mock_open(read_data=dumps(file_data))
 
         with patch('builtins.open', mock_file):
