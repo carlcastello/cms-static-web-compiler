@@ -36,6 +36,6 @@ class LocalCompiler(Compiler):
                 continue
             logging.warning('Directory "%s" already exist.', path)
 
-    def _save_file(self, location: str, file_content: str) -> None:
-        with open(f'{self._output_path}/' + location, 'w') as file:
+    def _save_file(self, file_location: str, file_content: str) -> None:
+        with open(f'{self._output_path}/' + file_location, 'w') as file:
             file.write(file_content)

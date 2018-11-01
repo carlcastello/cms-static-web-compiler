@@ -24,8 +24,8 @@ def create_project_structure(project_name: str, **kwargs: str) -> None:
 
     compiler.create_project_directories()
     project_data: Dict[str, Any] = parser.get_project_data()
-    # project_file: Dict[str, Any] = parser.render_project_file(project_data)
-    compiler.create_project_files(project_data)
+    project_file: Dict[str, Any] = parser.render_project_file(project_data)
+    compiler.create_project_files(project_file)
 
 def update_project(project_name: str) -> None:
     """

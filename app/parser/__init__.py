@@ -37,14 +37,9 @@ class Parser:
         }
 
     def __compile_sass(self, project_data: Dict[str, Any]) -> Dict[str, Any]:
-        # with open('css/example.css') as example_css:
-        #     print(example_css.read())
         with open('resources/scss/bootstrap.scss', 'r') as bootstrap_file:
-            potato = "$primary: #D2B48C !default;\n" + bootstrap_file.read()
-            print(potato)
-
-            print(sass.compile(string=(potato), include_paths=('resources/scss',), output_style='compressed'))
-        return {}
+            return [bootstrap_file.read()]
+        return []
 
     def render_project_file(self, project_data: Dict[str, Any]) -> Dict[str, Any]:
         """
