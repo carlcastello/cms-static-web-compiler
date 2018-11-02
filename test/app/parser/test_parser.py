@@ -12,7 +12,7 @@ class TestParser(unittest.TestCase):
 
     class Template:
         # pylint: disable=too-few-public-methods
-        kwargs = {}
+        kwargs: Dict[str, Any] = {}
         def __init__(self, mark_up):
             self._mark_up: str = mark_up
 
@@ -21,7 +21,7 @@ class TestParser(unittest.TestCase):
             return self._mark_up
 
     def setUp(self) -> None:
-        self._parser = Parser('test-project-name')
+        self._parser: Parser = Parser('test-project-name')
 
     @patch('app.parser.Environment.get_template')
     def test_render_project_file(self,
@@ -30,11 +30,11 @@ class TestParser(unittest.TestCase):
         file_name: str = 'potato_salad'
         file_type: str = 'html'
         mark_up: str = 'Hello World!'
-        file_data = 'Oranges are not red'
+        file_data: str = 'Oranges are not red'
 
-        template = self.Template(mark_up)
+        template: self.Template = self.Template(mark_up)
         mock_get_template.return_value = template
-        mock_file: Mock = mock_open(read_data=file_data)
+        sass_file: Mock = mock_open(read_data=file_data)
 
         page_one: Dict[str, str] = {
             'file_name': file_name,
@@ -43,18 +43,18 @@ class TestParser(unittest.TestCase):
 
         project_data: Dict[str, Any] = {
             MARKUP: {'pages': [page_one]},
-            IMAGES: {}
+            IMAGES: {},
             CSS: []
         }
 
         returned_data: Dict[str, Any] = {}
-        with patch('builtins.open', mock_file):
+        with patch('builtins.open', sass_file):
             returned_data = self._parser.render_project_file(project_data)
 
         self.assertEqual(
             returned_data,
             {MARKUP: {f'{file_name}.{file_type}': f'{mark_up}'},
-             Ima: {},
+             IMAGES: {},
              CSS: [file_data]}
         )
         self.assertEqual(template.kwargs, page_one)

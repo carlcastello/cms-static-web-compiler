@@ -18,7 +18,7 @@ class Parser:
 
     @staticmethod
     def __get_file_name(file_data: Dict[str, Any]) -> str:
-        return file_data['file_name'] + '.' + file_data['file_type']
+        return f'{file_data["file_name"]}.{file_data["file_type"]}'
 
     def __parse_pages(self, markup: Dict[str, Any]) -> Dict[str, Any]:
         jinja_env: Environment = Environment(

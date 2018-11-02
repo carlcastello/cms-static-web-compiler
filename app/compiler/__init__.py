@@ -13,7 +13,6 @@ class Compiler:
     """
     A compiler abstract class with common methods for all environments
     """
-    # pylint: disable=too-few-public-methods
 
     _environments: List[str] = ['develop', 'production']
     _folders: List[str] = [CSS, IMAGES, JS, ROBOTS]
@@ -53,8 +52,8 @@ class Compiler:
             file_location: str = f'{self._project_name}/{environment}/{file_name}'
             self._save_file(file_location, file_content)
 
-    def _compile_css(self, environment: str, files: Dict[str, Any]):
-        file_content = sass_compile(
+    def _compile_css(self, environment: str, files: Dict[str, Any]) -> None:
+        file_content: str = sass_compile(
             string=(''.join(files)),
             include_paths=('resources/scss',),
             output_style='compressed'
