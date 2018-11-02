@@ -47,7 +47,7 @@ class TestLocalCompiler(unittest.TestCase):
         received_arguments: List[type(call)] = mock_make_dirs.call_args_list
         expected_arguments: List[type(call)] = self._expected_arguments('../static-websites')
 
-        self.assertEqual(received_arguments, expected_arguments)
+        self.assertEqual(expected_arguments, received_arguments)
 
     @patch('os.path.isfile')
     @patch('os.makedirs')
@@ -61,7 +61,7 @@ class TestLocalCompiler(unittest.TestCase):
         received_arguments: List[type(call)] = mock_make_dirs.call_args_list
         expected_arguments: List[type(call)] = self._expected_arguments(self._output_path)
 
-        self.assertEqual(received_arguments, expected_arguments)
+        self.assertEqual(expected_arguments, received_arguments)
 
     @patch('os.path.isdir')
     @patch('os.makedirs')
@@ -73,30 +73,4 @@ class TestLocalCompiler(unittest.TestCase):
 
         received_arguments: List[str] = mock_make_dirs.call_args_list
 
-        self.assertEqual(received_arguments, [])
-
-    def test_create_project_files_compile_markup_files(self) -> None:
-        file_name: str = 'file_name.html'
-        file_content: str = 'Hello World'
-
-        mock_file: Mock = mock_open()
-        project_files: Dict[str, Dict[str, str]] = {
-            MARKUP: {file_name: file_content}
-        }
-
-        with patch('builtins.open', mock_file):
-            self._compiler_with_path.create_project_files(project_files)
-
-        self.assertEqual(mock_file.call_count, 2)
-        self.assertEqual(
-            mock_file.call_args_list,
-            [call(f'{self._output_path}/{self._project_name}/develop/{file_name}', 'w'),
-             call(f'{self._output_path}/{self._project_name}/production/{file_name}', 'w')]
-        )
-
-        file_handler = mock_file().write
-        self.assertEqual(file_handler.call_count, 2)
-        self.assertEqual(
-            file_handler.call_args_list,
-            [call(file_content), call(file_content)]
-        )
+        self.assertEqual([], received_arguments)

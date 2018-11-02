@@ -52,7 +52,7 @@ class Compiler:
             file_location: str = f'{self._project_name}/{environment}/{file_name}'
             self._save_file(file_location, file_content)
 
-    def _compile_css(self, environment: str, files: Dict[str, Any]) -> None:
+    def _compile_css(self, environment: str, files: List[str]) -> None:
         file_content: str = sass_compile(
             string=(''.join(files)),
             include_paths=('resources/scss',),

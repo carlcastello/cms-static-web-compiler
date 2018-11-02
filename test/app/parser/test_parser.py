@@ -44,7 +44,7 @@ class TestParser(unittest.TestCase):
         project_data: Dict[str, Any] = {
             MARKUP: {'pages': [page_one]},
             IMAGES: {},
-            CSS: []
+            CSS: {'variables': 'this is a css file'}
         }
 
         returned_data: Dict[str, Any] = {}
@@ -55,6 +55,6 @@ class TestParser(unittest.TestCase):
             returned_data,
             {MARKUP: {f'{file_name}.{file_type}': f'{mark_up}'},
              IMAGES: {},
-             CSS: [file_data]}
+             CSS: ['this is a css file', file_data]}
         )
         self.assertEqual(template.kwargs, page_one)

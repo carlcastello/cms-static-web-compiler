@@ -35,12 +35,12 @@ class Parser:
             self.__get_file_name(page): template.render(**{**markup, **page}) for page in pages
         }
 
-    def __parse_sass(self, project_data: Dict[str, Any]) -> Dict[str, Any]:
+    def __parse_sass(self, css: Dict[str, Any]) -> Dict[str, Any]:
         """
         Reads the main bootstrap file and the project css
         """
         with open('resources/scss/bootstrap.scss', 'r') as bootstrap_file:
-            return [bootstrap_file.read()]
+            return [css.get('variables', ''), bootstrap_file.read()]
         return []
 
     def render_project_file(self, project_data: Dict[str, Any]) -> Dict[str, Any]:
