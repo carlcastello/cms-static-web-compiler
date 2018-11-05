@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch, call
 
 from typing import Dict, Any, List
 
-from app.constants import MARKUP, CSS
+from app.constants import MARKUP, SCSS
 from app.compiler import Compiler
 
 class TestCompiler(unittest.TestCase):
@@ -55,7 +55,7 @@ class TestCompiler(unittest.TestCase):
 
         mock_sass_compile.return_value = compiled_files
 
-        self._compiler._compile_css(environment, files)
+        self._compiler._compile_scss(environment, files)
 
         self.assertEqual(1, mock_sass_compile.call_count)
         self.assertEqual(1, mock_save_file.call_count)
@@ -69,7 +69,7 @@ class TestCompiler(unittest.TestCase):
             mock_save_file.call_args
         )
 
-    @patch('app.compiler.Compiler._compile_css')
+    @patch('app.compiler.Compiler._compile_scss')
     @patch('app.compiler.Compiler._compile_markup')
     def test_create_project_files_compile_markup_files(self,
                                                        mock_compile_markup: Mock,
@@ -77,17 +77,16 @@ class TestCompiler(unittest.TestCase):
         file_name: str = 'file_name.html'
         file_content: str = 'Hello World'
 
-        # mock_file: Mock = mock_open()
         project_files: Dict[str, Dict[str, str]] = {
             MARKUP: {file_name: file_content},
-            CSS: ['Hello', 'World']
+            SCSS: ['Hello', 'World']
         }
 
         self._compiler.create_project_files(project_files)
 
         self.assertEqual(2, mock_compile_css.call_count)
         self.assertEqual(
-            [call('develop', project_files[CSS]), call('production', project_files[CSS])],
+            [call('develop', project_files[SCSS]), call('production', project_files[SCSS])],
             mock_compile_css.call_args_list
         )
 

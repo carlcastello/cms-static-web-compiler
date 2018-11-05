@@ -14,7 +14,7 @@ load_dotenv(verbose=True)
 
 def create_project_structure(project_name: str, **kwargs: str) -> None:
     """
-    Creates the folder structure, basic html files and css
+    Creates the folder structure, basic html files and scss
 
     :project_name: Name of the project/root folder
     :kwargs: Extra arguments needed for the compiler

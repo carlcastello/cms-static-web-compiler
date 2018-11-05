@@ -74,3 +74,25 @@ class TestLocalCompiler(unittest.TestCase):
         received_arguments: List[str] = mock_make_dirs.call_args_list
 
         self.assertEqual([], received_arguments)
+
+    def test_save_file(self) -> None:
+        mock_file: Mock = mock_open()
+
+        file_location: str = 'file-location'
+        file_content: str = 'Hello World'
+
+        with patch('builtins.open', mock_file):
+            self._compiler_with_path._save_file(file_location, file_content)
+
+        self.assertEqual(1, mock_file.call_count)
+        self.assertEqual(
+            call('../test-website-directory/file-location', 'w'),
+            mock_file.call_args
+        )
+
+        file_handler: Mock = mock_file().write
+        self.assertEqual(1, file_handler.call_count)
+        self.assertEqual(
+            call(file_content),
+            file_handler.call_args
+        )

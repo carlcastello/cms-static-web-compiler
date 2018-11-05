@@ -7,7 +7,7 @@ from sass import compile as sass_compile
 
 from typing import List, Dict, Any
 
-from app.constants import MARKUP, IMAGES, CSS, JS, ROBOTS
+from app.constants import MARKUP, IMAGES, SCSS, JS, ROBOTS
 
 class Compiler:
     """
@@ -15,7 +15,7 @@ class Compiler:
     """
 
     _environments: List[str] = ['develop', 'production']
-    _folders: List[str] = [CSS, IMAGES, JS, ROBOTS]
+    _folders: List[str] = ['css', IMAGES, JS, ROBOTS]
 
     def __init__(self, project_name: str) -> None:
         """
@@ -52,7 +52,7 @@ class Compiler:
             file_location: str = f'{self._project_name}/{environment}/{file_name}'
             self._save_file(file_location, file_content)
 
-    def _compile_css(self, environment: str, files: List[str]) -> None:
+    def _compile_scss(self, environment: str, files: List[str]) -> None:
         file_content: str = sass_compile(
             string=(''.join(files)),
             include_paths=('resources/scss',),
@@ -70,6 +70,6 @@ class Compiler:
             for file_category, files in project_files.items():
                 if file_category == MARKUP:
                     self._compile_markup(environment, files)
-                elif file_category == CSS:
-                    self._compile_css(environment, files)
+                elif file_category == SCSS:
+                    self._compile_scss(environment, files)
 
