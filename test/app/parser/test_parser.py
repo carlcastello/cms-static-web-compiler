@@ -1,4 +1,6 @@
-#pylint: disable=missing-docstring
+"""
+Test for the parser __init__ module
+"""
 
 import unittest
 from unittest.mock import patch, Mock, mock_open, call
@@ -8,6 +10,7 @@ from typing import Dict, Any, List
 from app.parser import Parser
 from app.constants import MARKUP, SCSS, IMAGES
 
+# pylint: disable=missing-docstring, protected-access
 class TestParser(unittest.TestCase):
 
     class Template:
@@ -25,7 +28,7 @@ class TestParser(unittest.TestCase):
 
     @patch('app.parser.Environment.get_template')
     def test__parse_markup(self,
-                          mock_get_template: Mock) -> None:
+                           mock_get_template: Mock) -> None:
         page_name: str = 'hello_world'
         page_type: str = 'html'
         page_content: str = 'potato salad'

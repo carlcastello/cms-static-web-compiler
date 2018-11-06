@@ -1,4 +1,6 @@
-# pylint: disable=missing-docstring
+"""
+Test for the compiler __init__ module
+"""
 
 import unittest
 from unittest.mock import Mock, patch, call
@@ -8,6 +10,7 @@ from typing import Dict, Any, List
 from app.constants import MARKUP, SCSS
 from app.compiler import Compiler
 
+# pylint: disable=missing-docstring, protected-access
 class TestCompiler(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -61,7 +64,9 @@ class TestCompiler(unittest.TestCase):
         self.assertEqual(1, mock_save_file.call_count)
 
         self.assertEqual(
-            call(string=(''.join(files)), include_paths=('resources/scss',), output_style='compressed'),
+            call(string=(''.join(files)),
+                 include_paths=('resources/scss',),
+                 output_style='compressed'),
             mock_sass_compile.call_args
         )
         self.assertEqual(

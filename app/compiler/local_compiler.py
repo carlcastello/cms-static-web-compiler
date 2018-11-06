@@ -6,9 +6,6 @@ used specifically for local environment
 import os
 import logging
 
-from typing import Dict, Any
-
-from app.constants import MARKUP
 from app.compiler import Compiler
 
 class LocalCompiler(Compiler):

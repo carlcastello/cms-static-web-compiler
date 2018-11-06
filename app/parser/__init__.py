@@ -35,7 +35,8 @@ class Parser:
             self.__get_file_name(page): template.render(**{**markup, **page}) for page in pages
         }
 
-    def _parse_scss(self, scss: Dict[str, Any]) -> Dict[str, Any]:
+    @staticmethod
+    def _parse_scss(scss: Dict[str, Any]) -> Dict[str, Any]:
         """
         Reads the main bootstrap file and the project css
         """
@@ -58,4 +59,4 @@ class Parser:
         """
             An abstract method to fetch project data
         """
-        raise NotImplementedError('Trying to run parser without a given environment')
+        raise NotImplementedError

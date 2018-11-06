@@ -4,12 +4,11 @@ Test for the local compiler module
 
 import unittest
 from unittest.mock import patch, Mock, call, mock_open
-from typing import List, Dict
+from typing import List
 
-from app.constants import MARKUP
 from app.compiler.local_compiler import LocalCompiler
 
-# pylint: disable=missing-docstring
+# pylint: disable=missing-docstring, protected-access
 class TestLocalCompiler(unittest.TestCase):
 
     def setUp(self) -> None:

@@ -3,9 +3,9 @@ Holds Compiler (memory to file) related classes, functions and constants that ar
 used by all environments
 """
 
-from sass import compile as sass_compile
-
 from typing import List, Dict, Any
+
+from sass import compile as sass_compile
 
 from app.constants import MARKUP, IMAGES, SCSS, JS, ROBOTS
 
@@ -38,14 +38,14 @@ class Compiler:
         """
         An abstract method intended to create folders/directories for a project.
         """
-        raise NotImplementedError('Trying to run "create_project_directories" without a given environment')
+        raise NotImplementedError
 
 
     def _save_file(self, file_location: str, file_content: str) -> None:
         """
         A abstract method to save a file that differs with implementation
         """
-        raise NotImplementedError('Trying to run "_save_file" without a given environment')
+        raise NotImplementedError
 
     def _compile_markup(self, environment: str, files: Dict[str, Any]) -> None:
         for file_name, file_content in files.items():
@@ -72,4 +72,3 @@ class Compiler:
                     self._compile_markup(environment, files)
                 elif file_category == SCSS:
                     self._compile_scss(environment, files)
-
