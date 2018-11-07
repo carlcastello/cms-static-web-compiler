@@ -62,7 +62,7 @@ class Compiler:
         self._save_file(file_location, file_content)
 
 
-    def create_project_files(self, project_files) -> None:
+    def create_project_files(self, project_files: Dict[str, Any]) -> None:
         """
         A method responsible for creating project files. e.i. html markups and css
         """

@@ -9,15 +9,17 @@ clean:
 pylint:
 	pylint cms_static_web_compiler.py app/	test/
 
-compile: clean pylint
-
-test: clean
+unittest:
 	python3 -m unittest discover -v
 
 install:
 	pip install -r requirements.txt
 
-build: install compile test
+post_pull: install compile run_test
+
+pre_commit:	clean pylint
+
+pre_push: unittest
 
 create_project:
 	python3 cms_static_web_compiler.py --name $(project_name)

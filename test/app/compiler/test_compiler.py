@@ -15,7 +15,7 @@ class TestCompiler(unittest.TestCase):
 
     def setUp(self) -> None:
         self._project_name: str = 'test-project-name'
-        self._compiler = Compiler(self._project_name)
+        self._compiler: Compiler = Compiler(self._project_name)
 
     def test__generate_project_keys(self) -> None:
         # pylint: disable=protected-access
