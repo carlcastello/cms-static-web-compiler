@@ -3,18 +3,19 @@ Holds Compiler (memory to file) related classes, functions and constants that ar
 used by all environments
 """
 
-from typing import List
+from typing import List, Dict, Any
 
-from app.constants import IMAGES, CSS, JS, ROBOTS
+from sass import compile as sass_compile
+
+from app.constants import MARKUP, IMAGES, SCSS, JS, ROBOTS
 
 class Compiler:
     """
     A compiler abstract class with common methods for all environments
     """
-    # pylint: disable=too-few-public-methods
 
     _environments: List[str] = ['develop', 'production']
-    _folders: List[str] = [CSS, IMAGES, JS, ROBOTS]
+    _folders: List[str] = ['css', IMAGES, JS, ROBOTS]
 
     def __init__(self, project_name: str) -> None:
         """
@@ -26,7 +27,6 @@ class Compiler:
         """
         Creates a directory tree
         """
-
         folder_keys: List[str] = []
         for environment in self._environments:
             for folder in self._folders:
@@ -38,10 +38,37 @@ class Compiler:
         """
         An abstract method intended to create folders/directories for a project.
         """
-        raise NotImplementedError('Trying to run compiler without a given environment')
+        raise NotImplementedError
+
+
+    def _save_file(self, file_location: str, file_content: str) -> None:
+        """
+        A abstract method to save a file that differs with implementation
+        """
+        raise NotImplementedError
+
+    def _compile_markup(self, environment: str, files: Dict[str, Any]) -> None:
+        for file_name, file_content in files.items():
+            file_location: str = f'{self._project_name}/{environment}/{file_name}'
+            self._save_file(file_location, file_content)
+
+    def _compile_scss(self, environment: str, files: List[str]) -> None:
+        file_content: str = sass_compile(
+            string=(''.join(files)),
+            include_paths=('resources/scss',),
+            output_style='compressed'
+        )
+        file_location: str = f'{self._project_name}/{environment}/css/main.css'
+        self._save_file(file_location, file_content)
+
 
     def create_project_files(self, project_files) -> None:
         """
-        An abstract method intended to create html pages based on a json object.
+        A method responsible for creating project files. e.i. html markups and css
         """
-        raise NotImplementedError('Trying to run compiler without a given environment')
+        for environment in self._environments:
+            for file_category, files in project_files.items():
+                if file_category == MARKUP:
+                    self._compile_markup(environment, files)
+                elif file_category == SCSS:
+                    self._compile_scss(environment, files)

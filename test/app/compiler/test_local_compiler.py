@@ -4,12 +4,11 @@ Test for the local compiler module
 
 import unittest
 from unittest.mock import patch, Mock, call, mock_open
-from typing import List, Dict
+from typing import List
 
-from app.constants import MARKUP
 from app.compiler.local_compiler import LocalCompiler
 
-# pylint: disable=missing-docstring
+# pylint: disable=missing-docstring, protected-access
 class TestLocalCompiler(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -47,7 +46,7 @@ class TestLocalCompiler(unittest.TestCase):
         received_arguments: List[type(call)] = mock_make_dirs.call_args_list
         expected_arguments: List[type(call)] = self._expected_arguments('../static-websites')
 
-        self.assertEqual(received_arguments, expected_arguments)
+        self.assertEqual(expected_arguments, received_arguments)
 
     @patch('os.path.isfile')
     @patch('os.makedirs')
@@ -61,7 +60,7 @@ class TestLocalCompiler(unittest.TestCase):
         received_arguments: List[type(call)] = mock_make_dirs.call_args_list
         expected_arguments: List[type(call)] = self._expected_arguments(self._output_path)
 
-        self.assertEqual(received_arguments, expected_arguments)
+        self.assertEqual(expected_arguments, received_arguments)
 
     @patch('os.path.isdir')
     @patch('os.makedirs')
@@ -73,30 +72,26 @@ class TestLocalCompiler(unittest.TestCase):
 
         received_arguments: List[str] = mock_make_dirs.call_args_list
 
-        self.assertEqual(received_arguments, [])
+        self.assertEqual([], received_arguments)
 
-    def test_create_project_files_compile_markup_files(self) -> None:
-        file_name: str = 'file_name.html'
+    def test_save_file(self) -> None:
+        mock_file: Mock = mock_open()
+
+        file_location: str = 'file-location'
         file_content: str = 'Hello World'
 
-        mock_file: Mock = mock_open()
-        project_files: Dict[str, Dict[str, str]] = {
-            MARKUP: {file_name: file_content}
-        }
-
         with patch('builtins.open', mock_file):
-            self._compiler_with_path.create_project_files(project_files)
+            self._compiler_with_path._save_file(file_location, file_content)
 
-        self.assertEqual(mock_file.call_count, 2)
+        self.assertEqual(1, mock_file.call_count)
         self.assertEqual(
-            mock_file.call_args_list,
-            [call(f'{self._output_path}/{self._project_name}/develop/{file_name}', 'w'),
-             call(f'{self._output_path}/{self._project_name}/production/{file_name}', 'w')]
+            call('../test-website-directory/file-location', 'w'),
+            mock_file.call_args
         )
 
-        file_handler = mock_file().write
-        self.assertEqual(file_handler.call_count, 2)
+        file_handler: Mock = mock_file().write
+        self.assertEqual(1, file_handler.call_count)
         self.assertEqual(
-            file_handler.call_args_list,
-            [call(file_content), call(file_content)]
+            call(file_content),
+            file_handler.call_args
         )

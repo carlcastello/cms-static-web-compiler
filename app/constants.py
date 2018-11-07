@@ -3,6 +3,6 @@ APP Constants
 """
 MARKUP: str = "markup"
 IMAGES: str = "images"
-CSS: str = "css"
+SCSS: str = "scss"
 JS: str = "js"
 ROBOTS: str = "robots"
