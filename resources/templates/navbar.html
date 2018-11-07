@@ -1,7 +1,7 @@
 {% set ZERO = "ZERO" %}
 {% set ONE = "ONE" %}
 {% if navbar.type == ZERO %}
-    <nav class="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">
             {% if navbar.brand.type == ZERO %}
                 <img src="{{ navbar.brand.image }}" alt="{{ navbar.brand.alternate }}">

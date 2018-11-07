@@ -16,7 +16,7 @@ class TestParser(unittest.TestCase):
     class Template:
         # pylint: disable=too-few-public-methods
         kwargs: Dict[str, Any] = {}
-        def __init__(self, mark_up):
+        def __init__(self, mark_up: str) -> None:
             self._mark_up: str = mark_up
 
         def render(self, **kwargs) -> str:
