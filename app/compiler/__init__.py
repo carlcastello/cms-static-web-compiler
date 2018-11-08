@@ -42,7 +42,7 @@ class Compiler:
         raise NotImplementedError
 
 
-    def _save_file(self, file_location: str, file_content: str, in_binary: bool=False) -> None:
+    def _save_file(self, file_location: str, file_content: str, as_binary: bool=False) -> None:
         """
         A abstract method to save a file
         """
@@ -74,7 +74,7 @@ class Compiler:
         """
         for file_name, file_content in files.items():
             file_location: str = f'{self._project_name}/{environment}/images/{file_name}'
-            self._save_file(file_location, b64decode(file_content), in_binary=True)
+            self._save_file(file_location, b64decode(file_content), as_binary=True)
 
     def create_project_files(self, project_files: Dict[str, Any]) -> None:
         """
