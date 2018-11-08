@@ -16,11 +16,10 @@ class Parser:
         self._project_name: str = project_name
         self._kwargs: str = kwargs
 
-    @staticmethod
-    def __get_file_name(file_data: Dict[str, Any]) -> str:
-        return f'{file_data["file_name"]}.{file_data["file_type"]}'
-
     def _parse_markup(self, markup: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Parse markup and render as html
+        """
         jinja_env: Environment = Environment(
             loader=PackageLoader('app', '../resources/templates'),
             autoescape=select_autoescape(['html'])
@@ -32,17 +31,25 @@ class Parser:
             del markup['pages']
 
         return {
-            self.__get_file_name(page): template.render(**{**markup, **page}) for page in pages
+            f'{page["file_name"]}': template.render(**{**markup, **page}) for page in pages
         }
 
     @staticmethod
-    def _parse_scss(scss: Dict[str, Any]) -> Dict[str, Any]:
+    def _parse_scss(scss: Dict[str, Any]) -> str:
         """
-        Reads the main bootstrap file and the project css
+        Parse project css and combine with the main bootstrap file
         """
         with open('resources/scss/bootstrap.scss', 'r') as bootstrap_file:
             return [scss.get('variables', ''), bootstrap_file.read()]
-        return []
+        return str
+
+    @staticmethod
+    def _parse_images(images: List[Dict[str, str]]) -> Dict[str, str]:
+        """
+        Parse images data to {file_name: content} format
+        """
+        return { image['file_name']: image['data'] for image in images }
+
 
     def render_project_file(self, project_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -51,12 +58,12 @@ class Parser:
         """
         return {
             MARKUP: self._parse_markup(project_data[MARKUP]),
-            IMAGES: {},
+            IMAGES: self._parse_images(project_data[IMAGES]),
             SCSS: self._parse_scss(project_data[SCSS])
         }
 
     def get_project_data(self) -> Dict[str, Any]:
         """
-            An abstract method to fetch project data
+        An abstract method to fetch project data
         """
         raise NotImplementedError
