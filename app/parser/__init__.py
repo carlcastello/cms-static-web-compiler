@@ -32,7 +32,7 @@ class Parser:
             del markup['pages']
 
         return {
-            f'{page["file_name"]}': template.render(**{**markup, **page}) for page in pages
+            page['file_name']: template.render(**{**markup, **page}) for page in pages
         }
 
     @staticmethod
@@ -42,7 +42,7 @@ class Parser:
         """
         with open('resources/scss/bootstrap.scss', 'r') as bootstrap_file:
             return [scss.get('variables', ''), bootstrap_file.read()]
-        return str
+        return ""
 
     @staticmethod
     def _parse_images(images: List[Dict[str, str]]) -> Dict[str, str]:

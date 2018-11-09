@@ -42,7 +42,7 @@ class TestParser(unittest.TestCase):
 
         returned_data: Dict[str, str] = self._parser._parse_markup(mark_up)
 
-        self.assertEqual({f'{page_name}': page_content}, returned_data)
+        self.assertEqual({page_name: page_content}, returned_data)
         self.assertEqual(expected_page, template.kwargs)
 
     def test_parse_sass(self) -> None:

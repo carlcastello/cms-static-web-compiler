@@ -107,7 +107,7 @@ class TestCompiler(unittest.TestCase):
     def test_create_project_files_compile_markup_files(self,
                                                        mock_compile_markup: Mock,
                                                        mock_compile_css: Mock,
-                                                       mock_compile_images) -> None:
+                                                       mock_compile_images: Mock) -> None:
 
         project_files: Dict[str, Dict[str, str]] = {
             MARKUP: {'file_name.html': 'Hello World'},
