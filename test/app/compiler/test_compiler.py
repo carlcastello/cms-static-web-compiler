@@ -7,7 +7,7 @@ from unittest.mock import Mock, patch, call
 
 from typing import Dict, Any, List
 
-from app.constants import MARKUP, SCSS
+from app.constants import MARKUP, SCSS, IMAGES
 from app.compiler import Compiler
 
 # pylint: disable=missing-docstring, protected-access
@@ -74,17 +74,45 @@ class TestCompiler(unittest.TestCase):
             mock_save_file.call_args
         )
 
+    @patch('app.compiler.b64decode')
+    @patch('app.compiler.Compiler._save_file')
+    def test__compile_images(self,
+                             mock_save_file: Mock,
+                             mock_b64decode: Mock) -> None:
+        environment: str = 'development'
+        image_name: str = 'file_name.html'
+        encoded_image_data: str = 'Hello world'
+        decoded_image_data: str = 'World Hello'
+
+        mock_b64decode.return_value = decoded_image_data
+
+        self._compiler._compile_images(
+            environment,
+            {image_name: encoded_image_data}
+        )
+
+        self.assertEqual(1, mock_save_file.call_count)
+        self.assertEqual(call(encoded_image_data), mock_b64decode.call_args)
+
+        image_location: str = f'{self._project_name}/{environment}/images/{image_name}'
+        self.assertEqual(1, mock_save_file.call_count)
+        self.assertEqual(
+            call(image_location, decoded_image_data, as_binary=True),
+            mock_save_file.call_args
+        )
+
+    @patch('app.compiler.Compiler._compile_images')
     @patch('app.compiler.Compiler._compile_scss')
     @patch('app.compiler.Compiler._compile_markup')
     def test_create_project_files_compile_markup_files(self,
                                                        mock_compile_markup: Mock,
-                                                       mock_compile_css: Mock) -> None:
-        file_name: str = 'file_name.html'
-        file_content: str = 'Hello World'
+                                                       mock_compile_css: Mock,
+                                                       mock_compile_images) -> None:
 
         project_files: Dict[str, Dict[str, str]] = {
-            MARKUP: {file_name: file_content},
-            SCSS: ['Hello', 'World']
+            MARKUP: {'file_name.html': 'Hello World'},
+            SCSS: ['Hello', 'World'],
+            IMAGES: {'image_name.html': 'The world is round'}
         }
 
         self._compiler.create_project_files(project_files)
@@ -99,4 +127,10 @@ class TestCompiler(unittest.TestCase):
         self.assertEqual(
             [call('develop', project_files[MARKUP]), call('production', project_files[MARKUP])],
             mock_compile_markup.call_args_list
+        )
+
+        self.assertEqual(2, mock_compile_images.call_count)
+        self.assertEqual(
+            [call('develop', project_files[IMAGES]), call('production', project_files[IMAGES])],
+            mock_compile_images.call_args_list
         )

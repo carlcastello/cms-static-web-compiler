@@ -42,7 +42,7 @@ class Compiler:
         raise NotImplementedError
 
 
-    def _save_file(self, file_location: str, file_content: str, as_binary: bool=False) -> None:
+    def _save_file(self, file_location: str, file_content: str, as_binary: bool = False) -> None:
         """
         A abstract method to save a file
         """
