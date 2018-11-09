@@ -16,7 +16,8 @@ class Parser:
         self._project_name: str = project_name
         self._kwargs: str = kwargs
 
-    def _parse_markup(self, markup: Dict[str, Any]) -> Dict[str, Any]:
+    @staticmethod
+    def _parse_markup(markup: Dict[str, Any]) -> Dict[str, Any]:
         """
         Parse markup and render as html
         """
@@ -48,7 +49,7 @@ class Parser:
         """
         Parse images data to {file_name: content} format
         """
-        return { image['file_name']: image['data'] for image in images }
+        return {image['file_name']: image['data'] for image in images}
 
 
     def render_project_file(self, project_data: Dict[str, Any]) -> Dict[str, Any]:
