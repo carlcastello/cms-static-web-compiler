@@ -25,9 +25,9 @@ class TestCompiler(unittest.TestCase):
             f'{self._project_name}/develop/js',
             f'{self._project_name}/develop/robots',
             f'{self._project_name}/production/css',
-            f'{self._project_name}/production/ima ges',
+            f'{self._project_name}/production/images',
             f'{self._project_name}/production/js',
-            f'{self._project_name}/production/robots ',
+            f'{self._project_name}/production/robots',
         ]
         returned_keys = self._compiler._generate_project_keys()
         self.assertEqual(expected_keys, returned_keys)
