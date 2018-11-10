@@ -23,6 +23,7 @@ pre_commit:	clean pylint
 
 pre_push: unittest
 
+# https://www.viget.com/articles/two-ways-to-share-git-hooks-with-your-team/
 # If git version >= 2.9
 # init:
 	# git config core.hooksPath .githooks
