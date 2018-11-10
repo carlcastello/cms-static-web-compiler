@@ -23,7 +23,6 @@ pre_commit:	clean pylint
 
 pre_push: unittest
 
-
 # If git version >= 2.9
 # init:
 	# git config core.hooksPath .githooks
@@ -33,6 +32,7 @@ init:
 
 	find .git/hooks -type l -exec rm {} \;
 	find .githooks -type f -exec ln -sf ../../{} .git/hooks/ \;
+
 
 # Local execution
 create_project:
