@@ -29,12 +29,10 @@ class TestParser(unittest.TestCase):
     @patch('app.parser.Environment.get_template')
     def test__parse_markup(self,
                            mock_get_template: Mock) -> None:
-        page_name: str = 'hello_world'
-        page_type: str = 'html'
+        page_name: str = 'hello_world.html'
         page_content: str = 'potato salad'
         expected_page: Dict[str, str] = {
-            'file_name': page_name,
-            'file_type': page_type,
+            'file_name': page_name
         }
         mark_up: str = {
             'pages': [expected_page]
@@ -44,14 +42,8 @@ class TestParser(unittest.TestCase):
 
         returned_data: Dict[str, str] = self._parser._parse_markup(mark_up)
 
-        self.assertEqual(
-            {f'{page_name}.{page_type}': page_content},
-            returned_data
-        )
-        self.assertEqual(
-            expected_page,
-            template.kwargs
-        )
+        self.assertEqual({page_name: page_content}, returned_data)
+        self.assertEqual(expected_page, template.kwargs)
 
     def test_parse_sass(self) -> None:
         file_data: str = 'Oranges are not red'
@@ -67,40 +59,50 @@ class TestParser(unittest.TestCase):
 
         self.assertEqual([variables, file_data], returned_data)
 
+    def test_parse_images(self) -> None:
+        file_name: str = 'Guy Fawkes'
+        data: str = 'Remember Remember the fifth of november'
+        images_data: str = [{'file_name': file_name, 'data': data}]
+
+        returned_data: Dict[str, str] = self._parser._parse_images(images_data)
+
+        self.assertEqual({file_name: data}, returned_data)
+
+
+    @patch('app.parser.Parser._parse_images')
     @patch('app.parser.Parser._parse_markup')
     @patch('app.parser.Parser._parse_scss')
     def test_render_project_file(self,
                                  mock_parse_scss: Mock,
-                                 mock_parse_markup: Mock) -> None:
-        parsed_markup = 'The lion sleeps angrily.'
-        parsed_scss = 'The quick brown fox'
-
-        markup_data: Dict[str, str] = {
-            'file_name': 'hello_world',
-            'file_type': 'html',
-        }
+                                 mock_parse_markup: Mock,
+                                 mock_parse_images: Mock) -> None:
+        parsed_markup: str = 'The lion sleeps angrily.'
+        parsed_scss: str = 'The quick brown fox'
+        parsed_images: str = 'Obiviating the need for test'
 
         markup_data: Dict[str, List[Dict[str, str]]] = {'pages': [{
-            'file_name': 'hello_world',
-            'file_type': 'html',
+            'file_name': 'hello_world.html',
         }]}
 
-        scss_data = {'variables': 'this is a css file'}
+        images_data: List[Dict[str, str]] = [{'file_name': 'potato.png', 'data': 'not today'}]
+
+        scss_data: Dict[str, str] = {'variables': 'this is a css file'}
 
         project_data: Dict[str, Any] = {
             MARKUP: markup_data,
-            IMAGES: {},
+            IMAGES: images_data,
             SCSS: scss_data
         }
 
         mock_parse_markup.return_value = parsed_markup
         mock_parse_scss.return_value = parsed_scss
+        mock_parse_images.return_value = parsed_images
 
         returned_data: Dict[str, str] = self._parser.render_project_file(project_data)
 
         self.assertEqual(call(markup_data), mock_parse_markup.call_args)
         self.assertEqual(call(scss_data), mock_parse_scss.call_args)
         self.assertEqual(
-            {MARKUP: parsed_markup, IMAGES: {}, SCSS: parsed_scss},
+            {MARKUP: parsed_markup, IMAGES: parsed_images, SCSS: parsed_scss},
             returned_data
         )
