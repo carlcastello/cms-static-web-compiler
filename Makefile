@@ -30,7 +30,6 @@ pre_push: unittest
 
 # If git version < 2.9
 init:
-
 	find .git/hooks -type l -exec rm {} \;
 	find .githooks -type f -exec ln -sf ../../{} .git/hooks/ \;
 
