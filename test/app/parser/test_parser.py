@@ -49,7 +49,9 @@ class TestParser(unittest.TestCase):
         file_data: str = 'Oranges are not red'
         mock_file: Mock = mock_open(read_data=file_data)
 
-        variables: str = 'Blues are not purple'
+        key = 'blues'
+        value = 'are not purple'
+        variables: str = {key: value}
 
         returned_data: Dict[str, Any] = {}
         with patch('builtins.open', mock_file):
@@ -57,7 +59,7 @@ class TestParser(unittest.TestCase):
                 'variables': variables
             })
 
-        self.assertEqual([variables, file_data], returned_data)
+        self.assertEqual([f'{key}: {value};', file_data], returned_data)
 
     def test_parse_images(self) -> None:
         file_name: str = 'Guy Fawkes'

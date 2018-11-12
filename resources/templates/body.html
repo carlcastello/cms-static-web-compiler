@@ -1,0 +1,5 @@
+{% for component in components %}
+    {% if component.type == "JUMBOTRON" %}
+        {% include "components/jumbotron.html" %}
+    {% endif %}
+{% endfor %}

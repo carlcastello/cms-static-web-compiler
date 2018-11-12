@@ -32,7 +32,7 @@ class Parser:
             del markup['pages']
 
         return {
-            page['file_name']: template.render(**{**markup, **page}) for page in pages
+            page['file_name']: template.render(**markup, **page) for page in pages
         }
 
     @staticmethod
@@ -40,8 +40,12 @@ class Parser:
         """
         Parse project css and combine with the main bootstrap file
         """
+        def _parse_variables() -> str:
+            variables: Dict[str, str] = scss.get('variables', {})
+            return ''.join([f'{key}: {value};' for key, value in variables.items()])
+
         with open('resources/scss/bootstrap.scss', 'r') as bootstrap_file:
-            return [scss.get('variables', ''), bootstrap_file.read()]
+            return [_parse_variables(), bootstrap_file.read()]
         return ""
 
     @staticmethod
