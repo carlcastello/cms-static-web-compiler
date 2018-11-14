@@ -42,6 +42,7 @@ class Parser:
         """
         def _parse_variables() -> str:
             variables: Dict[str, str] = scss.get('variables', {})
+            del scss['variables']
             return ''.join([f'{key}: {value};' for key, value in variables.items()])
 
         def _parse_component_styles(dictionary: Dict[str, Union[str, dict]]) -> str:
