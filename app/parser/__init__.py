@@ -2,7 +2,7 @@
 Holds Parser (file to memory) related classes, functions and constants that are
 used by all environments
 """
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Union
 
 from jinja2 import Environment, BaseLoader, PackageLoader, Template, select_autoescape
 
@@ -44,8 +44,17 @@ class Parser:
             variables: Dict[str, str] = scss.get('variables', {})
             return ''.join([f'{key}: {value};' for key, value in variables.items()])
 
-        with open('resources/scss/bootstrap.scss', 'r') as bootstrap_file:
-            return [_parse_variables(), bootstrap_file.read()]
+        def _parse_component_styles(dictionary: Dict[str, Union[str, dict]]) -> str:
+            styles = ''
+            for key, value in dictionary.items():
+                if isinstance(value, dict):
+                    styles = f'{styles}.{key}{{{_parse_component_styles(value)}}};'
+                else:
+                    styles = f'{styles}{key}:{value};'
+            return styles
+
+        with open('resources/scss/main.scss', 'r') as bootstrap_file:
+            return [_parse_variables(), bootstrap_file.read(), _parse_component_styles(scss)]
         return ""
 
     @staticmethod

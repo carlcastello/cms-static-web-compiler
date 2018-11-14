@@ -1,9 +1,30 @@
-<div class="jumbotron">
-  <h1 class="display-3">Hello, world!</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-  <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-  </p>
-</div>
+{% set ZERO = "ZERO" %}
+{% set ONE = "ONE" %}
+
+{% macro render_jumbotron_header(content) %}
+    {% if content.type == ZERO %}
+    {% elif content.type == ONE %}
+        <img src="images/{{ content.image }}" alt="{{ content.alternate }}">
+    {% endif %}
+{% endmacro %}
+
+{% maco render_jumbotron_footer(content) %}
+{% endmacro %}
+
+
+{% macro jumbotron(content, jumbotron_class=None) %}
+    <div class="jumbotron {{ jumbotron_class if jumbotron_class else '' }}">
+        {% set caption = content.caption %}
+        {% set caption_class = content.caption %}
+        <div class="jumbotron-caption {{ caption_class if caption_class else '' }}">
+            {% if caption.header %}
+                {{ render_jumbotron_header(caption.header) }}
+            {% endif %}
+            {% if caption.body %}
+
+            {% endif %}
+            {% if caption.footer %}
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
