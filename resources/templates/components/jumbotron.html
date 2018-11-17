@@ -1,30 +1,49 @@
 {% set ZERO = "ZERO" %}
 {% set ONE = "ONE" %}
+{% set TWO = "TWO" %}
+{% set THREE = "THREE" %}
 
 {% macro render_jumbotron_header(content) %}
+    <div>
+        {% if content.type == ZERO %}
+        {% elif content.type == ONE %}
+            <img src="images/{{ content.image }}" class="mx-auto" alt="{{ content.alternate }}"/>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_content(content) %}
     {% if content.type == ZERO %}
     {% elif content.type == ONE %}
-        <img src="images/{{ content.image }}" alt="{{ content.alternate }}">
+        <img src="images/{{ content.image }}" alt="{{ content.text }}" class="{{ content.class }}"/>
+    {% elif content.type == TWO %}
+    {% elif content.type == THREE %}
+        <a class="btn {{ content.class }}">{{ content.text }}</a>
     {% endif %}
 {% endmacro %}
 
-{% maco render_jumbotron_footer(content) %}
-{% endmacro %}
 
-
-{% macro jumbotron(content, jumbotron_class=None) %}
-    <div class="jumbotron {{ jumbotron_class if jumbotron_class else '' }}">
-        {% set caption = content.caption %}
-        {% set caption_class = content.caption %}
-        <div class="jumbotron-caption {{ caption_class if caption_class else '' }}">
-            {% if caption.header %}
+{% macro jumbotron(component) %}
+    <div class="jumbotron {{ component.class if component.class else '' }}">
+        <div class="container {{ component.container.class if component.container.class else '' }}">
+            {% for row in component.container.rows %}
+                <div class="row {{ row.class }}">
+                    {% for column in row.columns %}
+                        <div class="col {{ column.class }}">
+                            {{ render_content(column.content) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {# {% if caption.header %}
                 {{ render_jumbotron_header(caption.header) }}
             {% endif %}
             {% if caption.body %}
 
             {% endif %}
             {% if caption.footer %}
-            {% endif %}
+                {{ render_jumbotron_footer(caption.footer) }}
+            {% endif %} #}
         </div>
     </div>
 {% endmacro %}

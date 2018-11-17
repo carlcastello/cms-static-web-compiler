@@ -2,6 +2,6 @@
 
 {% for component in components %}
     {% if component.type == "JUMBOTRON" %}
-        {{ jumbotron(component.content, component.class) }}
+        {{ jumbotron(component) }}
     {% endif %}
 {% endfor %}
