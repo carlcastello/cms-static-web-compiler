@@ -2,7 +2,7 @@
 Holds Parser (file to memory) related classes, functions and constants that are
 used by all environments
 """
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Union
 
 from jinja2 import Environment, BaseLoader, PackageLoader, Template, select_autoescape
 
@@ -32,17 +32,31 @@ class Parser:
             del markup['pages']
 
         return {
-            page['file_name']: template.render(**{**markup, **page}) for page in pages
+            page['file_name']: template.render(**markup, **page) for page in pages
         }
 
     @staticmethod
-    def _parse_scss(scss: Dict[str, Any]) -> str:
+    def _parse_scss(scss: Dict[str, Any]) -> List[str]:
         """
         Parse project css and combine with the main bootstrap file
         """
-        with open('resources/scss/bootstrap.scss', 'r') as bootstrap_file:
-            return [scss.get('variables', ''), bootstrap_file.read()]
-        return ""
+        def _parse_variables() -> str:
+            variables: Dict[str, str] = scss.get('variables', {})
+            del scss['variables']
+            return ''.join([f'{key}: {value};' for key, value in variables.items()])
+
+        def _parse_component_styles(dictionary: Dict[str, Union[str, dict]]) -> str:
+            styles: str = ''
+            for key, value in dictionary.items():
+                if isinstance(value, dict):
+                    styles = f'{styles}.{key}{{{_parse_component_styles(value)}}};'
+                else:
+                    styles = f'{styles}{key}:{value};'
+            return styles
+
+        with open('resources/scss/main.scss', 'r') as bootstrap_file:
+            return [_parse_variables(), bootstrap_file.read(), _parse_component_styles(scss)]
+        return []
 
     @staticmethod
     def _parse_images(images: List[Dict[str, str]]) -> Dict[str, str]:

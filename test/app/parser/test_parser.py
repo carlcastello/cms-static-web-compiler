@@ -49,15 +49,25 @@ class TestParser(unittest.TestCase):
         file_data: str = 'Oranges are not red'
         mock_file: Mock = mock_open(read_data=file_data)
 
-        variables: str = 'Blues are not purple'
+        key: str = 'blues'
+        value: str = 'are not purple'
+        variables: Dict[str, str] = {key: value}
+
+        other_key: str = 'Not so blue'
+        other_value: str = 'say the sugarman'
+        other: Dict[str, str] = {other_key: other_value}
 
         returned_data: Dict[str, Any] = {}
         with patch('builtins.open', mock_file):
             returned_data = self._parser._parse_scss({
-                'variables': variables
+                'variables': variables,
+                'other': other
             })
 
-        self.assertEqual([variables, file_data], returned_data)
+        self.assertEqual(
+            [f'{key}: {value};', file_data, f'.other{{{other_key}:{other_value};}};'],
+            returned_data
+        )
 
     def test_parse_images(self) -> None:
         file_name: str = 'Guy Fawkes'

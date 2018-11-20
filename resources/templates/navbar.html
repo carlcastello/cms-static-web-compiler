@@ -1,23 +1,26 @@
 {% set ZERO = "ZERO" %}
 {% set ONE = "ONE" %}
+{% set TWO = "TWO" %}
 {% if navbar.type == ZERO %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-            {% if navbar.brand.type == ZERO %}
-                <img src="images/{{ navbar.brand.image }}" alt="{{ navbar.brand.alternate }}">
-            {% elif navbar.brand.type == ONE %}
-                {{ navbar.brand.text }}
-            {% endif %}
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-nav-toggle" aria-controls="navbar-nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar-nav-toggle">
-            <div class="navbar-nav">
-                {%  for nav in navbar.nav %}
-                    <a class="nav-item nav-link active" href="{{ nav.url }}">{{ nav.title }}</a>
-                {% endfor %}
-            </div>
+{% elif navbar.type == ONE %}
+<nav class="navbar navbar-expand-lg {{ navbar.class }}">
+    <a class="navbar-brand" href="{{ navbar.brand.url }}">
+        {% if navbar.brand.type == ZERO %}
+        {% elif navbar.brand.type == ONE %}
+            <img src="images/{{ navbar.brand.image }}" alt="{{ navbar.brand.alternate }}">
+        {% elif navbar.brand.type == TWO %}
+            {{ navbar.brand.text }}
+        {% endif %}
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-nav-toggle" aria-controls="navbar-nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-nav-toggle">
+        <div class="navbar-nav ml-auto">
+            {%  for nav in navbar.nav %}
+                <a class="nav-item nav-link active" href="{{ nav.url }}">{{ nav.title }}</a>
+            {% endfor %}
         </div>
-    </nav>
+    </div>
+</nav>
 {% endif %}

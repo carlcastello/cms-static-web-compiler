@@ -1,0 +1,49 @@
+{% set ZERO = "ZERO" %}
+{% set ONE = "ONE" %}
+{% set TWO = "TWO" %}
+{% set THREE = "THREE" %}
+
+{% macro render_jumbotron_header(content) %}
+    <div>
+        {% if content.type == ZERO %}
+        {% elif content.type == ONE %}
+            <img src="images/{{ content.image }}" class="mx-auto" alt="{{ content.alternate }}"/>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_content(content) %}
+    {% if content.type == ZERO %}
+    {% elif content.type == ONE %}
+        <img src="images/{{ content.image }}" alt="{{ content.text }}" class="{{ content.class }}"/>
+    {% elif content.type == TWO %}
+    {% elif content.type == THREE %}
+        <a class="btn {{ content.class }}">{{ content.text }}</a>
+    {% endif %}
+{% endmacro %}
+
+
+{% macro jumbotron(component) %}
+    <div class="jumbotron {{ component.class if component.class else '' }}">
+        <div class="container {{ component.container.class if component.container.class else '' }}">
+            {% for row in component.container.rows %}
+                <div class="row {{ row.class }}">
+                    {% for column in row.columns %}
+                        <div class="col {{ column.class }}">
+                            {{ render_content(column.content) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {# {% if caption.header %}
+                {{ render_jumbotron_header(caption.header) }}
+            {% endif %}
+            {% if caption.body %}
+
+            {% endif %}
+            {% if caption.footer %}
+                {{ render_jumbotron_footer(caption.footer) }}
+            {% endif %} #}
+        </div>
+    </div>
+{% endmacro %}

@@ -1,0 +1,7 @@
+{% from "components/jumbotron.html" import jumbotron %}
+
+{% for component in components %}
+    {% if component.type == "JUMBOTRON" %}
+        {{ jumbotron(component) }}
+    {% endif %}
+{% endfor %}
