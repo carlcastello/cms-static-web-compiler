@@ -1,16 +1,4 @@
-{% set ZERO = "ZERO" %}
-{% set ONE = "ONE" %}
-{% set TWO = "TWO" %}
-{% set THREE = "THREE" %}
-
-{% macro render_jumbotron_header(content) %}
-    <div>
-        {% if content.type == ZERO %}
-        {% elif content.type == ONE %}
-            <img src="images/{{ content.image }}" class="mx-auto" alt="{{ content.alternate }}"/>
-        {% endif %}
-    </div>
-{% endmacro %}
+{% set ZERO, ONE, TWO, THREE = "ZERO", "ONE", "TWO", "THREE" %}
 
 {% macro render_content(content) %}
     {% if content.type == ZERO %}
@@ -23,7 +11,7 @@
 {% endmacro %}
 
 
-{% macro jumbotron(component) %}
+{% macro render_jumbotron(component) %}
     <div class="jumbotron {{ component.class if component.class else '' }}">
         <div class="container {{ component.container.class if component.container.class else '' }}">
             {% for row in component.container.rows %}

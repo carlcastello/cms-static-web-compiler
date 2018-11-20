@@ -1,7 +1,10 @@
-{% from "components/jumbotron.html" import jumbotron %}
+{% from "components/jumbotron.html" import render_jumbotron %}
+{% from "components/carousel.html" import render_carousel %}
 
 {% for component in components %}
     {% if component.type == "JUMBOTRON" %}
-        {{ jumbotron(component) }}
+        {{ render_jumbotron(component) }}
+    {% elif component.type == "CAROUSEL" %}
+        {{ render_carousel(component) }}
     {% endif %}
 {% endfor %}
