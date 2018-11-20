@@ -45,7 +45,7 @@ class Parser:
             del scss['variables']
             return ''.join([f'{key}: {value};' for key, value in variables.items()])
 
-        def _parse_component_styles(dictionary: Dict[str, Union[str, dict]]) -> str:
+        def _parse_component_styles(dictionary: Dict[str, Union[str, Dict[str, Any]]]) -> str:
             styles: str = ''
             for key, value in dictionary.items():
                 if isinstance(value, dict):
