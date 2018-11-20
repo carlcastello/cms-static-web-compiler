@@ -36,7 +36,7 @@ class Parser:
         }
 
     @staticmethod
-    def _parse_scss(scss: Dict[str, Any]) -> str:
+    def _parse_scss(scss: Dict[str, Any]) -> List[str]:
         """
         Parse project css and combine with the main bootstrap file
         """
@@ -46,7 +46,7 @@ class Parser:
             return ''.join([f'{key}: {value};' for key, value in variables.items()])
 
         def _parse_component_styles(dictionary: Dict[str, Union[str, dict]]) -> str:
-            styles = ''
+            styles: str = ''
             for key, value in dictionary.items():
                 if isinstance(value, dict):
                     styles = f'{styles}.{key}{{{_parse_component_styles(value)}}};'
@@ -56,7 +56,7 @@ class Parser:
 
         with open('resources/scss/main.scss', 'r') as bootstrap_file:
             return [_parse_variables(), bootstrap_file.read(), _parse_component_styles(scss)]
-        return ""
+        return []
 
     @staticmethod
     def _parse_images(images: List[Dict[str, str]]) -> Dict[str, str]:
