@@ -1,0 +1,15 @@
+{% set ZERO, ONE, TWO, THREE = "ZERO", "ONE", "TWO", "THREE" %}
+
+{% macro render_text(type, text, class) %}
+    {% if type == ZERO %}
+        {# None #}
+    {% elif type == ONE %}
+        {# Image #}
+    {% elif type == TWO %}
+        {# paragraph #}
+        <p class="{{ class }}">{{ text }}</p>
+    {% elif type == THREE %}
+        {# h1 #}
+        <h1 class="{{ class }}">{{ text }}</h1>
+    {% endif %}
+{% endmacro %}

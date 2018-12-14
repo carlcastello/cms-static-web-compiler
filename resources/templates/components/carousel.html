@@ -1,4 +1,7 @@
+{% from "components/typography.html" import render_text %}
+
 {% set ZERO, ONE, TWO, THREE = "ZERO", "ONE", "TWO", "THREE" %}
+
 
 {% macro render_controls(carousel_id, controls) %}
     {% if controls.type == ZERO %}
@@ -20,7 +23,7 @@
         <ol class="carousel-indicators {{ indicators.class }}">
             {% for slide in slides %}
                 <li data-target="#{{ carousel_id }}"
-                    data-slide-to="{{ slide.index0 }}"
+                    data-slide-to="{{ loop.index0 }}"
                     class="{{ active if slide.active }}">
                 </li>
             {% endfor %}
@@ -33,7 +36,8 @@
         <div class="row {{ row.class }}">
             {% for column in row.columns %}
                 <div class="col {{ column.class }}">
-                    asdasdasdsad
+                    {% set content = column.content %}
+                    {{ render_text(content.type, content.text, content.class) }}
                 </div>
             {% endfor %}
         </div>
@@ -46,13 +50,13 @@
         <img href="images/{{ slide.image }}" alt="images/{{ slide.text }}"/>
     {% elif slide.type == TWO %}
         <img href="images/{{ slide.image }}" alt="images/{{ slide.text }}"/>
-        <div class="container carousel-caption d-none d-md-block {{ slide.container.class }}">
+        <div class="container carousel-caption {{ slide.container.class }}">
             {{ render_rows(slide.container.rows) }}
         </div>
     {% elif slide.type == THREE %}
         {% set container = slide.container %}
-        <div class="container carousel-caption d-none d-md-block {{ slide.container.class }}">
-            {{ render_rows(slide.container.row) }}
+        <div class="container {{ slide.container.class }}">
+            {{ render_rows(slide.container.rows) }}
         </div>
     {% endif %}
 {% endmacro %}
@@ -60,9 +64,11 @@
 {% macro render_carousel(component) %}
     <div id="{{ component.id }}" class="carousel slide {{ component.class }}" data-ride="carousel">
         {{ render_controls(component.id, component.controls) }}
-        <div class="carousel-inner">
+        <div class="carousel-inner h-100">
             {% for slide in component.slides %}
-                {{ render_slide(slide) }}
+                <div class="carousel-item h-100 {{ slide.class }}">
+                    {{ render_slide(slide) }}
+                </div>
             {% endfor %}
          </div>
         {{ render_indicators(component.id, component.indicators, component.slides) }}
